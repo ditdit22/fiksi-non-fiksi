@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif: Fiksi & Nonfiksi - Adit Ardiansyah, S.Pd.</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#0284c7',
+                            green: '#16a34a',
+                            yellow: '#ca8a04',
+                            orange: '#ea580c',
+                            red: '#dc2626',
+                            purple: '#9333ea',
+                            teal: '#0d9488'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        /* Custom Time-of-Day Background Patterns */
+        .bg-pagi {
+            background: linear-gradient(135deg, #38bdf8 0%, #fbbf24 100%);
+        }
+        .bg-siang {
+            background: linear-gradient(135deg, #0ea5e9 0%, #22c55e 100%);
+        }
+        .bg-senja {
+            background: linear-gradient(135deg, #f97316 0%, #a855f7 100%);
+        }
+        .bg-malam {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        }
+
+        .card-bright {
+            background-color: #ffffff;
+            border-width: 3px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* High visibility pulse & smooth transitions */
+        .badge-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.05); }
+        }
+
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1d4ed8;
+        }
+
+        .drag-item {
+            cursor: grab;
+            transition: all 0.2s ease;
+        }
+        .drag-item:active {
+            cursor: grabbing;
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased bg-slate-100 selection:bg-amber-300 selection:text-slate-900">
+
+    <!-- Top Header Banner -->
+    <header id="headerContainer" class="bg-pagi text-white transition-all duration-500 shadow-lg border-b-8 border-amber-400 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <!-- Branding & Guru -->
+                <div class="flex items-center gap-4 text-center md:text-left">
+                    <img id="logo sekolah" src="https://github.com/ditdit22/teks-fiksi-dan-non-fiksi/NF.JPG.jpeg" alt="logo sekolah" class="w-20 h-20 rounded-2xl border-4 border-white shadow-md bg-white object-cover">
+                    <div>
+                        <span class="inline-block bg-amber-400 text-slate-900 font-extrabold text-xs uppercase px-3 py-1 rounded-full shadow mb-1">Bahasa Indonesia Kelas VII</span>
+                        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white drop-shadow-md">TEKS FIKSI & NONFIKSI</h1>
+                        <p class="text-white text-base sm:text-lg font-bold drop-shadow">Oleh: <span id="namaGuruDisplay" class="underline decoration-amber-300 decoration-2">Adit Ardiansyah, S.Pd.</span></p>
+                    </div>
+                </div>
+
+                <!-- Controls & Time Selector -->
+                <div class="flex flex-col items-center md:items-end gap-3 bg-slate-900/40 p-4 rounded-2xl backdrop-blur-md border border-white/20 shadow-inner">
+                    <span class="text-xs font-black uppercase text-amber-300 tracking-wider"><i class="fa-solid fa-cloud-sun mr-1"></i> Suasana Belajar</span>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <button onclick="changeTheme('pagi')" class="px-3 py-1.5 rounded-xl text-xs font-black bg-amber-300 text-slate-900 hover:bg-amber-200 transition shadow"><i class="fa-solid fa-sun text-amber-600 mr-1"></i> Pagi</button>
+                        <button onclick="changeTheme('siang')" class="px-3 py-1.5 rounded-xl text-xs font-black bg-emerald-400 text-slate-900 hover:bg-emerald-300 transition shadow"><i class="fa-solid fa-cloud-showers-heavy text-emerald-800 mr-1"></i> Siang</button>
+                        <button onclick="changeTheme('senja')" class="px-3 py-1.5 rounded-xl text-xs font-black bg-orange-400 text-slate-900 hover:bg-orange-300 transition shadow"><i class="fa-solid fa-cloud-sun-rain text-orange-800 mr-1"></i> Senja</button>
+                        <button onclick="changeTheme('malam')" class="px-3 py-1.5 rounded-xl text-xs font-black bg-indigo-900 text-amber-200 hover:bg-indigo-800 transition shadow"><i class="fa-solid fa-moon text-amber-300 mr-1"></i> Malam</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white border-b-4 border-slate-300 shadow-md">
+        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 overflow-x-auto no-scrollbar gap-2 py-2">
+                <button onclick="switchTab('home')" id="tab-home" class="nav-btn bg-sky-500 text-white font-extrabold px-4 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 whitespace-nowrap shadow-md border-b-4 border-sky-700 active:translate-y-0.5">
+                    <i class="fa-solid fa-house text-lg"></i> Home
+                </button>
+                <button onclick="switchTab('tujuan')" id="tab-tujuan" class="nav-btn bg-slate-200 text-slate-800 font-extrabold px-4 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 whitespace-nowrap hover:bg-emerald-100 border-b-4 border-slate-400">
+                    <i class="fa-solid fa-bullseye text-emerald-600 text-lg"></i> Tujuan
+                </button>
+                <button onclick="switchTab('materi')" id="tab-materi" class="nav-btn bg-slate-200 text-slate-800 font-extrabold px-4 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 whitespace-nowrap hover:bg-amber-100 border-b-4 border-slate-400">
+                    <i class="fa-solid fa-book-open text-amber-600 text-lg"></i> Materi
+                </button>
+                <button onclick="switchTab('kuis')" id="tab-kuis" class="nav-btn bg-slate-200 text-slate-800 font-extrabold px-4 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 whitespace-nowrap hover:bg-rose-100 border-b-4 border-slate-400">
+                    <i class="fa-solid fa-pen-to-square text-rose-600 text-lg"></i> Kuis (30)
+                </button>
+                <button onclick="switchTab('game')" id="tab-game" class="nav-btn bg-slate-200 text-slate-800 font-extrabold px-4 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 whitespace-nowrap hover:bg-purple-100 border-b-4 border-slate-400">
+                    <i class="fa-solid fa-gamepad text-purple-600 text-lg"></i> Game Drag & Drop
+                </button>
+                <button onclick="switchTab('tentang')" id="tab-tentang" class="nav-btn bg-slate-200 text-slate-800 font-extrabold px-4 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 whitespace-nowrap hover:bg-teal-100 border-b-4 border-slate-400">
+                    <i class="fa-solid fa-user-gear text-teal-600 text-lg"></i> Pengembang
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- TAB 1: HOME -->
+        <section id="content-home" class="tab-content block space-y-6">
+            <div class="card-bright border-sky-400 rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-white via-sky-50 to-amber-50">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                    <div class="md:col-span-2 space-y-4">
+                        <span class="inline-block bg-sky-600 text-white font-black text-sm px-4 py-1.5 rounded-full shadow-sm">
+                            <i class="fa-solid fa-sparkles mr-1"></i> Selamat Datang Siswa Hebat!
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
+                            Jelajahi Dunia Unik <span class="text-sky-600 underline decoration-amber-400">Fiksi</span> & <span class="text-emerald-600 underline decoration-amber-400">Nonfiksi</span>
+                        </h2>
+                        <p class="text-slate-800 text-lg font-bold leading-relaxed">
+                            Apakah kamu suka membaca dongeng keajaiban atau buku pengetahuan ilmiah? Di sini, kamu akan mempelajari perbedaan, ciri-ciri, hingga unsur penting yang membangun sebuah buku!
+                        </p>
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <button onclick="speakText('Selamat datang di media pembelajaran interaktif Bahasa Indonesia tentang Cerita Fiksi dan Nonfiksi bersama Bapak Adit Ardiansyah. Mari belajar dengan penuh semangat!')" class="bg-amber-400 hover:bg-amber-300 text-slate-900 font-black px-5 py-3 rounded-2xl border-b-4 border-amber-600 shadow-md flex items-center gap-2 text-base transition">
+                                <i class="fa-solid fa-volume-high text-xl"></i> Dengarkan Sambutan
+                            </button>
+                            <button onclick="switchTab('materi')" class="bg-sky-600 hover:bg-sky-500 text-white font-black px-6 py-3 rounded-2xl border-b-4 border-sky-800 shadow-md flex items-center gap-2 text-base transition">
+                                Mulai Belajar <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="relative group">
+                            <div class="absolute -inset-2 bg-gradient-to-r from-amber-400 via-sky-400 to-emerald-400 rounded-3xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                            <img id="saya.jpg" src="https://github.com/ditdit22/teks-fiksi-dan-non-fiksi/saya.jpg.jpeg" onerror="this.src='https://github.com/ditdit22/teks-fiksi-dan-non-fiksi/saya.jpg.jpeg" alt="saya.jpg" class="relative rounded-2xl border-4 border-white shadow-2xl w-64 h-64 object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats & Feature Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="card-bright border-emerald-400 p-5 rounded-2xl bg-emerald-50/50 flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-2xl font-black shadow-md border-b-4 border-emerald-700">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-slate-900 font-extrabold text-lg">5 Sub-Materi</h3>
+                        <p class="text-slate-700 text-sm font-bold">Lengkap & Contoh Teks</p>
+                    </div>
+                </div>
+                <div class="card-bright border-amber-400 p-5 rounded-2xl bg-amber-50/50 flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-500 text-slate-900 flex items-center justify-center text-2xl font-black shadow-md border-b-4 border-amber-700">
+                        <i class="fa-solid fa-clipboard-question"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-slate-900 font-extrabold text-lg">30 Soal Kuis</h3>
+                        <p class="text-slate-700 text-sm font-bold">Pembahasan Instan</p>
+                    </div>
+                </div>
+                <div class="card-bright border-purple-400 p-5 rounded-2xl bg-purple-50/50 flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-500 text-white flex items-center justify-center text-2xl font-black shadow-md border-b-4 border-purple-700">
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-slate-900 font-extrabold text-lg">Interactive Game</h3>
+                        <p class="text-slate-700 text-sm font-bold">Drag & Drop Kelompok</p>
+                    </div>
+                </div>
+                <div class="card-bright border-rose-400 p-5 rounded-2xl bg-rose-50/50 flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-2xl font-black shadow-md border-b-4 border-rose-700">
+                        <i class="fa-solid fa-headphones"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-slate-900 font-extrabold text-lg">Audio Suara</h3>
+                        <p class="text-slate-700 text-sm font-bold">Fitur Baca Otomatis</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: TUJUAN PEMBELAJARAN -->
+        <section id="content-tujuan" class="tab-content hidden space-y-6">
+            <div class="card-bright border-emerald-500 rounded-3xl p-6 sm:p-8 bg-white">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-2xl font-black shadow border-b-4 border-emerald-700">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Capaian & Tujuan Pembelajaran</h2>
+                        <p class="text-slate-700 font-bold text-sm">Kurikulum Merdeka - Bahasa Indonesia Fase D (Kelas VII)</p>
+                    </div>
+                </div>
+
+                <!-- Capaian Pembelajaran Box -->
+                <div class="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-5 mb-8">
+                    <h3 class="text-emerald-900 font-black text-lg mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-award text-emerald-600"></i> Capaian Pembelajaran (CP)
+                    </h3>
+                    <p class="text-slate-800 font-bold leading-relaxed text-base">
+                        Peserta didik mampu menganalisis, mengevaluasi, dan mengidentifikasi unsur-unsur pembangun serta perbedaan antara cerita fiksi dan nonfiksi, serta mampu menyajikannya secara kritis, kreatif, dan komunikatif.
+                    </p>
+                </div>
+
+                <!-- 4 Tujuan Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="card-bright border-sky-400 p-6 rounded-2xl bg-sky-50/60">
+                        <div class="flex items-start gap-4">
+                            <span class="w-10 h-10 rounded-full bg-sky-500 text-white font-black flex items-center justify-center text-lg shadow shrink-0">1</span>
+                            <div>
+                                <h4 class="text-slate-900 font-extrabold text-lg mb-1">Memahami Konsep Dasar</h4>
+                                <p class="text-slate-800 font-bold text-sm leading-relaxed">Peserta didik mampu menjelaskan pengertian dan membedakan antara cerita fiksi dan teks nonfiksi secara tepat.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-bright border-amber-400 p-6 rounded-2xl bg-amber-50/60">
+                        <div class="flex items-start gap-4">
+                            <span class="w-10 h-10 rounded-full bg-amber-500 text-slate-900 font-black flex items-center justify-center text-lg shadow shrink-0">2</span>
+                            <div>
+                                <h4 class="text-slate-900 font-extrabold text-lg mb-1">Mengidentifikasi Ciri-Ciri</h4>
+                                <p class="text-slate-800 font-bold text-sm leading-relaxed">Peserta didik mampu mengenali ciri-ciri khas dan kebahasaan yang digunakan dalam karya fiksi maupun nonfiksi.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-bright border-purple-400 p-6 rounded-2xl bg-purple-50/60">
+                        <div class="flex items-start gap-4">
+                            <span class="w-10 h-10 rounded-full bg-purple-500 text-white font-black flex items-center justify-center text-lg shadow shrink-0">3</span>
+                            <div>
+                                <h4 class="text-slate-900 font-extrabold text-lg mb-1">Menganalisis Unsur Pembangun</h4>
+                                <p class="text-slate-800 font-bold text-sm leading-relaxed">Peserta didik mampu menganalisis unsur intrinsik (tema, tokoh, alur, latar) dan ekstrinsik pada cerita fiksi.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-bright border-rose-400 p-6 rounded-2xl bg-rose-50/60">
+                        <div class="flex items-start gap-4">
+                            <span class="w-10 h-10 rounded-full bg-rose-500 text-white font-black flex items-center justify-center text-lg shadow shrink-0">4</span>
+                            <div>
+                                <h4 class="text-slate-900 font-extrabold text-lg mb-1">Mengelompokkan Jenis Buku</h4>
+                                <p class="text-slate-800 font-bold text-sm leading-relaxed">Peserta didik mampu mengklasifikasikan berbagai contoh judul buku ke dalam kategori fiksi atau nonfiksi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: MATERI LENGKAP -->
+        <section id="content-materi" class="tab-content hidden space-y-6">
+            <div class="card-bright border-amber-400 rounded-3xl p-6 sm:p-8 bg-white">
+                
+                <!-- Sub-tab Navigation -->
+                <div class="flex items-center justify-between flex-wrap gap-4 mb-6 pb-4 border-b-2 border-slate-200">
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-book-open text-amber-500"></i> Materi Pembelajaran
+                    </h2>
+                    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+                        <button onclick="switchSubMateri('sub1')" id="btn-sub1" class="submateri-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-amber-500 text-slate-900 shadow border-b-2 border-amber-700">1. Pengertian</button>
+                        <button onclick="switchSubMateri('sub2')" id="btn-sub2" class="submateri-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-200 text-slate-800 hover:bg-amber-100">2. Ciri & Bahasa</button>
+                        <button onclick="switchSubMateri('sub3')" id="btn-sub3" class="submateri-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-200 text-slate-800 hover:bg-amber-100">3. Unsur Intrinsik</button>
+                        <button onclick="switchSubMateri('sub4')" id="btn-sub4" class="submateri-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-200 text-slate-800 hover:bg-amber-100">4. Jenis-Jenis</button>
+                        <button onclick="switchSubMateri('sub5')" id="btn-sub5" class="submateri-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-200 text-slate-800 hover:bg-amber-100">5. Contoh Analisis</button>
+                    </div>
+                </div>
+
+                <!-- SUB 1: Pengertian & Perbedaan -->
+                <div id="submateri-sub1" class="submateri-content space-y-6">
+                    <div class="flex justify-between items-center bg-amber-50 p-4 rounded-2xl border border-amber-200">
+                        <h3 class="text-xl font-black text-amber-900">1. Pengertian Fiksi vs Nonfiksi</h3>
+                        <button onclick="speakText('Pengertian Fiksi dan Nonfiksi. Cerita fiksi adalah karya karangan daya imajinasi penulis. Sedangkan teks nonfiksi berdasarkan kenyataan dan data ilmiah.')" class="bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high"></i> Baca Suara
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="card-bright border-sky-400 p-6 rounded-2xl bg-sky-50/50 space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1 bg-sky-500 text-white rounded-lg font-black text-sm">FIKSI</span>
+                                <h4 class="text-slate-900 font-extrabold text-lg">Khayalan & Imajinasi</h4>
+                            </div>
+                            <p class="text-slate-800 font-bold leading-relaxed text-sm">
+                                Teks yang berisi kisahan atau cerita yang dibuat berdasarkan **rekaan, khayalan, atau imajinasi** pengarang, bukan dari kejadian nyata sebenarnya.
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-sky-200 text-xs font-bold text-sky-900">
+                                💡 Contoh: Dongeng Sang Kancil, Novel Harry Potter, Cerpen Anak.
+                            </div>
+                        </div>
+
+                        <div class="card-bright border-emerald-400 p-6 rounded-2xl bg-emerald-50/50 space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1 bg-emerald-600 text-white rounded-lg font-black text-sm">NONFIKSI</span>
+                                <h4 class="text-slate-900 font-extrabold text-lg">Fakta & Data Nyata</h4>
+                            </div>
+                            <p class="text-slate-800 font-bold leading-relaxed text-sm">
+                                Teks yang disusun berdasarkan **fakta ilmiah, kenyataan, hasil riset, atau pengalaman nyata** yang benar-benar terjadi di dunia nyata.
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-emerald-200 text-xs font-bold text-emerald-900">
+                                💡 Contoh: Buku Pelajaran IPA, Biografi Soekarno, Ensklopedia Alam.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Table -->
+                    <div class="overflow-x-auto rounded-2xl border-2 border-slate-300 shadow-sm">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-800 text-white font-black text-sm sm:text-base">
+                                    <th class="p-4 border-b border-slate-700">Aspek Perbandingan</th>
+                                    <th class="p-4 border-b border-slate-700 bg-sky-700">Cerita Fiksi</th>
+                                    <th class="p-4 border-b border-slate-700 bg-emerald-700">Teks Nonfiksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 font-bold text-sm text-slate-800">
+                                <tr class="bg-white hover:bg-slate-50">
+                                    <td class="p-4 font-extrabold text-slate-900">Sumber Cerita</td>
+                                    <td class="p-4 text-sky-900">Imajinasi / Rekaan Penulis</td>
+                                    <td class="p-4 text-emerald-900">Fakta, Data, & Realitas</td>
+                                </tr>
+                                <tr class="bg-amber-50/40 hover:bg-amber-50">
+                                    <td class="p-4 font-extrabold text-slate-900">Sifat Bahasa</td>
+                                    <td class="p-4 text-sky-900">Konotatif (Kiasan/Imajinatif)</td>
+                                    <td class="p-4 text-emerald-900">Denotatif (Makna Sebenarnya)</td>
+                                </tr>
+                                <tr class="bg-white hover:bg-slate-50">
+                                    <td class="p-4 font-extrabold text-slate-900">Tujuan Utama</td>
+                                    <td class="p-4 text-sky-900">Menghibur & Menyampaikan Pesan Moral</td>
+                                    <td class="p-4 text-emerald-900">Memberi Informasi & Ilmu Pengetahuan</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SUB 2: Ciri & Bahasa -->
+                <div id="submateri-sub2" class="submateri-content hidden space-y-6">
+                    <div class="flex justify-between items-center bg-sky-50 p-4 rounded-2xl border border-sky-200">
+                        <h3 class="text-xl font-black text-sky-900">2. Ciri-Ciri & Kebahasaan</h3>
+                        <button onclick="speakText('Ciri utama cerita fiksi menggunakan bahasa kiasan dan alur cerita imajinatif. Sedangkan nonfiksi menggunakan bahasa lugas denotatif dan fakta yang objektif.')" class="bg-sky-400 hover:bg-sky-300 text-slate-900 font-extrabold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high"></i> Baca Suara
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="card-bright border-sky-400 p-6 rounded-2xl bg-white space-y-4">
+                            <h4 class="text-sky-700 font-black text-lg border-b-2 border-sky-200 pb-2">✨ Ciri-Ciri Cerita Fiksi</h4>
+                            <ul class="space-y-3 font-bold text-slate-800 text-sm">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-sky-500 mt-1"></i>
+                                    <span>Bersifat rekaan atau imajinasi pengarang semata.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-sky-500 mt-1"></i>
+                                    <span>Menggunakan gaya bahasa **konotatif** (makna kiasan/tidak sebenarnya).</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-sky-500 mt-1"></i>
+                                    <span>Tidak memiliki sistematika baku yang kaku.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-sky-500 mt-1"></i>
+                                    <span>Menyentuh emosi atau perasaan pembaca.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-bright border-emerald-400 p-6 rounded-2xl bg-white space-y-4">
+                            <h4 class="text-emerald-700 font-black text-lg border-b-2 border-emerald-200 pb-2">📚 Ciri-Ciri Teks Nonfiksi</h4>
+                            <ul class="space-y-3 font-bold text-slate-800 text-sm">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 mt-1"></i>
+                                    <span>Ditulis berdasarkan riset, fakta, dan data yang sah.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 mt-1"></i>
+                                    <span>Menggunakan gaya bahasa **denotatif** (makna lugas/sebenarnya).</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 mt-1"></i>
+                                    <span>Memiliki struktur dan sistematika ilmiah yang rapi.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 mt-1"></i>
+                                    <span>Penyajian objektif untuk menambah wawasan pembaca.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB 3: Unsur Intrinsik -->
+                <div id="submateri-sub3" class="submateri-content hidden space-y-6">
+                    <div class="flex justify-between items-center bg-purple-50 p-4 rounded-2xl border border-purple-200">
+                        <h3 class="text-xl font-black text-purple-900">3. Unsur Intrinsik Cerita Fiksi</h3>
+                        <button onclick="speakText('Unsur intrinsik adalah unsur pembangun dari dalam cerita, meliputi Tema, Tokoh, Alur, Latar, Amanat, dan Sudut Pandang.')" class="bg-purple-400 hover:bg-purple-300 text-slate-900 font-extrabold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high"></i> Baca Suara
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="card-bright border-sky-400 p-5 rounded-2xl bg-sky-50">
+                            <h4 class="font-black text-sky-900 text-base mb-1">1. Tema</h4>
+                            <p class="text-slate-800 font-bold text-xs">Ide pokok atau gagasan utama yang menjadi dasar seluruh isi cerita.</p>
+                        </div>
+                        <div class="card-bright border-emerald-400 p-5 rounded-2xl bg-emerald-50">
+                            <h4 class="font-black text-emerald-900 text-base mb-1">2. Tokoh & Penokohan</h4>
+                            <p class="text-slate-800 font-bold text-xs">Pelaku cerita (Protagonis, Antagonis, Tritagonis) beserta sifat/wataknya.</p>
+                        </div>
+                        <div class="card-bright border-amber-400 p-5 rounded-2xl bg-amber-50">
+                            <h4 class="font-black text-amber-900 text-base mb-1">3. Alur (Plot)</h4>
+                            <p class="text-slate-800 font-bold text-xs">Jalan cerita atau rangkaian peristiwa (Maju, Mundur, Campuran).</p>
+                        </div>
+                        <div class="card-bright border-purple-400 p-5 rounded-2xl bg-purple-50">
+                            <h4 class="font-black text-purple-900 text-base mb-1">4. Latar (Setting)</h4>
+                            <p class="text-slate-800 font-bold text-xs">Gambaran Tempat, Waktu, dan Suasana terjadinya peristiwa.</p>
+                        </div>
+                        <div class="card-bright border-rose-400 p-5 rounded-2xl bg-rose-50">
+                            <h4 class="font-black text-rose-900 text-base mb-1">5. Amanat</h4>
+                            <p class="text-slate-800 font-bold text-xs">Pesan moral atau nasihat positif yang ingin disampaikan pengarang.</p>
+                        </div>
+                        <div class="card-bright border-teal-400 p-5 rounded-2xl bg-teal-50">
+                            <h4 class="font-black text-teal-900 text-base mb-1">6. Sudut Pandang</h4>
+                            <p class="text-slate-800 font-bold text-xs">Cara penulis memosisikan dirinya dalam cerita (Orang Pertama/Ketiga).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB 4: Jenis-Jenis -->
+                <div id="submateri-sub4" class="submateri-content hidden space-y-6">
+                    <div class="flex justify-between items-center bg-rose-50 p-4 rounded-2xl border border-rose-200">
+                        <h3 class="text-xl font-black text-rose-900">4. Jenis-Jenis Karya</h3>
+                        <button onclick="speakText('Jenis karya fiksi contohnya dongeng, novel, cerpen, fabel, dan mitos. Sedangkan karya nonfiksi contohnya biografi, buku pelajaran, artikel ilmiah, dan ensiklopedia.')" class="bg-rose-400 hover:bg-rose-300 text-slate-900 font-extrabold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high"></i> Baca Suara
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="card-bright border-sky-400 p-6 rounded-2xl bg-sky-50/50">
+                            <h4 class="text-sky-900 font-black text-lg mb-3">🎨 Ragam Karya FIKSI</h4>
+                            <div class="space-y-2 font-bold text-sm text-slate-800">
+                                <div class="bg-white p-3 rounded-xl border border-sky-200">
+                                    <span class="text-sky-600 font-black">1. Fabel:</span> Cerita rekaan dengan tokoh hewan yang berprilaku seperti manusia.
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-sky-200">
+                                    <span class="text-sky-600 font-black">2. Dongeng:</span> Cerita tradisional berunsur keajaiban luar biasa.
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-sky-200">
+                                    <span class="text-sky-600 font-black">3. Cerpen:</span> Cerita pendek fokus pada satu konflik utama.
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-sky-200">
+                                    <span class="text-sky-600 font-black">4. Novel:</span> Karangan panjang kompleks dengan beragam tokoh.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-bright border-emerald-400 p-6 rounded-2xl bg-emerald-50/50">
+                            <h4 class="text-emerald-900 font-black text-lg mb-3">📖 Ragam Karya NONFIKSI</h4>
+                            <div class="space-y-2 font-bold text-sm text-slate-800">
+                                <div class="bg-white p-3 rounded-xl border border-emerald-200">
+                                    <span class="text-emerald-600 font-black">1. Biografi:</span> Kisah perjalanan hidup tokoh nyata tulisan orang lain.
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-emerald-200">
+                                    <span class="text-emerald-600 font-black">2. Buku Pelajaran:</span> Buku sumber ilmu pengetahuan resmi sekolah.
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-emerald-200">
+                                    <span class="text-emerald-600 font-black">3. Artikel Ilmiah:</span> Tulisan riset analisis fakta secara objektif.
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-emerald-200">
+                                    <span class="text-emerald-600 font-black">4. Ensiklopedia:</span> Kumpulan referensi rangkuman ilmu pengetahuan.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB 5: Contoh Analisis -->
+                <div id="submateri-sub5" class="submateri-content hidden space-y-6">
+                    <div class="flex justify-between items-center bg-teal-50 p-4 rounded-2xl border border-teal-200">
+                        <h3 class="text-xl font-black text-teal-900">5. Contoh Analisis Teks Nyata</h3>
+                        <button onclick="speakText('Contoh cerita fiksi Kancil dan Buaya. Temanya adalah kecerdikan mengalahkan kekuatan besar.')" class="bg-teal-400 hover:bg-teal-300 text-slate-900 font-extrabold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high"></i> Baca Suara
+                        </button>
+                    </div>
+
+                    <div class="card-bright border-amber-400 p-6 rounded-2xl bg-amber-50/40 space-y-4">
+                        <span class="px-3 py-1 bg-amber-500 text-slate-900 font-black text-xs rounded-lg uppercase">Teks Kutipan Fiksi</span>
+                        <h4 class="text-slate-900 font-black text-lg">Kancil dan Kawanan Buaya Sungai</h4>
+                        <p class="text-slate-800 italic font-semibold text-sm leading-relaxed bg-white p-4 rounded-xl border border-amber-200">
+                            "Suatu hari, Sang Kancil ingin menyeberangi sungai deras untuk memetik buah apel segar di seberang. Kancil memanggil Buaya dan berkata bahwa Raja Hutan memintanya menghitung jumlah buaya. Dengan cerdik, Kancil melompati punggung buaya satu per satu sambil berhitung hingga sampai di seberang sungai."
+                        </p>
+                        
+                        <div class="bg-white p-4 rounded-xl border-2 border-amber-300 space-y-2">
+                            <h5 class="font-black text-slate-900 text-sm text-amber-800"><i class="fa-solid fa-magnifying-glass"></i> Hasil Analisis Unsur Intrinsik:</h5>
+                            <ul class="text-xs font-bold text-slate-800 space-y-1">
+                                <li>• <strong>Tema:</strong> Kecerdikan mencari jalan keluar saat terdesak.</li>
+                                <li>• <strong>Tokoh Utama:</strong> Sang Kancil (Cerdik, Cepat Berpikir).</li>
+                                <li>• <strong>Tokoh Pembantu:</strong> Buaya (Mudah Percaya).</li>
+                                <li>• <strong>Latar Tempat:</strong> Tepi Sungai Rindang.</li>
+                                <li>• <strong>Amanat:</strong> Gunakan akal sehat dan kecerdikan untuk hal yang positif tanpa merugikan orang lain secara jahat.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 4: KUIS INTERAKTIF (30 SOAL) -->
+        <section id="content-kuis" class="tab-content hidden space-y-6">
+            <div class="card-bright border-rose-500 rounded-3xl p-6 sm:p-8 bg-white">
+                
+                <!-- Quiz Header & Timer Status -->
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4 pb-6 border-b-2 border-slate-200">
+                    <div>
+                        <span class="inline-block bg-rose-500 text-white font-black text-xs px-3 py-1 rounded-full mb-1">Evaluasi Pembelajaran</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Kuis Pilihan Ganda (30 Soal)</h2>
+                    </div>
+
+                    <div class="flex items-center gap-4 bg-rose-50 p-3 rounded-2xl border border-rose-200">
+                        <div class="text-center">
+                            <span class="text-xs font-black text-rose-800 uppercase block">Sisa Waktu</span>
+                            <span id="quizTimer" class="text-2xl font-black text-rose-600">30:00</span>
+                        </div>
+                        <button onclick="resetQuiz()" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-extrabold rounded-xl text-xs transition shadow">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset Kuis
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-200 h-4 rounded-full overflow-hidden">
+                    <div id="quizProgressBar" class="bg-rose-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+
+                <!-- Soal & Navigation Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    
+                    <!-- Question Display Area -->
+                    <div class="lg:col-span-3 space-y-6">
+                        <div id="quizQuestionBox" class="card-bright border-rose-300 p-6 rounded-2xl bg-rose-50/30 space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span id="questionNumberBadge" class="bg-rose-600 text-white font-black px-3 py-1 rounded-lg text-sm">Soal 1 dari 30</span>
+                                <span id="questionCategoryBadge" class="bg-amber-400 text-slate-900 font-black text-xs px-3 py-1 rounded-lg">Konsep Fiksi</span>
+                            </div>
+                            
+                            <p id="quizQuestionText" class="text-slate-900 font-extrabold text-lg sm:text-xl leading-relaxed">
+                                Memuat pertanyaan kuis...
+                            </p>
+
+                            <!-- Options Grid -->
+                            <div id="quizOptionsContainer" class="space-y-3 pt-2">
+                                <!-- Options dynamically injected -->
+                            </div>
+                        </div>
+
+                        <!-- Prev / Next Navigation -->
+                        <div class="flex justify-between items-center">
+                            <button onclick="navigateQuiz(-1)" id="btnPrevQuiz" class="px-5 py-2.5 rounded-xl font-extrabold text-sm bg-slate-200 text-slate-800 hover:bg-slate-300 transition flex items-center gap-2 disabled:opacity-50">
+                                <i class="fa-solid fa-arrow-left"></i> Sebelumnya
+                            </button>
+                            <button onclick="navigateQuiz(1)" id="btnNextQuiz" class="px-6 py-2.5 rounded-xl font-extrabold text-sm bg-rose-600 hover:bg-rose-500 text-white shadow-md transition flex items-center gap-2">
+                                Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Question Selector Grid (1-30) -->
+                    <div class="space-y-4">
+                        <h3 class="font-black text-slate-900 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-rose-500"></i> Navigasi Soal
+                        </h3>
+                        <div id="quizGridNav" class="grid grid-cols-5 gap-2 max-h-80 overflow-y-auto p-2 bg-slate-100 rounded-2xl border border-slate-300">
+                            <!-- 30 buttons injected dynamically -->
+                        </div>
+
+                        <button onclick="submitQuiz()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-2xl shadow-lg border-b-4 border-emerald-800 transition text-base flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Selesaikan Kuis
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- RESULT BOX (Hidden by default) -->
+                <div id="quizResultModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div class="bg-white border-4 border-rose-500 rounded-3xl p-6 sm:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto space-y-6 shadow-2xl">
+                        <div class="text-center space-y-2">
+                            <div id="starRating" class="text-4xl text-amber-400 space-x-1">⭐⭐⭐⭐⭐</div>
+                            <h3 class="text-3xl font-black text-slate-900">Hasil Evaluasi Kuis</h3>
+                            <p class="text-slate-700 font-bold text-sm">Media Pembelajaran Fiksi & Nonfiksi</p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div class="bg-emerald-100 border border-emerald-300 p-4 rounded-2xl">
+                                <span class="text-xs font-black text-emerald-800 uppercase block">Skor Akhir</span>
+                                <span id="finalScoreText" class="text-3xl font-black text-emerald-700">100</span>
+                            </div>
+                            <div class="bg-sky-100 border border-sky-300 p-4 rounded-2xl">
+                                <span class="text-xs font-black text-sky-800 uppercase block">Benar</span>
+                                <span id="correctCountText" class="text-3xl font-black text-sky-700">30 / 30</span>
+                            </div>
+                            <div class="bg-rose-100 border border-rose-300 p-4 rounded-2xl">
+                                <span class="text-xs font-black text-rose-800 uppercase block">Predikat</span>
+                                <span id="predicateText" class="text-lg font-black text-rose-700">Istimewa</span>
+                            </div>
+                        </div>
+
+                        <!-- Detailed Explanations -->
+                        <div class="space-y-3">
+                            <h4 class="font-black text-slate-900 text-base">Pembahasan Jawaban:</h4>
+                            <div id="quizPembahasanBox" class="space-y-3 max-h-60 overflow-y-auto p-3 bg-slate-50 rounded-2xl border border-slate-300">
+                                <!-- Detailed answers -->
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button onclick="closeQuizResult()" class="w-full py-3 bg-rose-600 hover:bg-rose-500 text-white font-black rounded-2xl shadow transition">
+                                Tutup & Coba Lagi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 5: DRAG & DROP GAME -->
+        <section id="content-game" class="tab-content hidden space-y-6">
+            <div class="card-bright border-purple-500 rounded-3xl p-6 sm:p-8 bg-white">
+                
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pb-6 border-b-2 border-slate-200">
+                    <div>
+                        <span class="inline-block bg-purple-600 text-white font-black text-xs px-3 py-1 rounded-full mb-1">Permainan Edukasi</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-slate-900">Permainan Kelompokkan Kartu</h2>
+                    </div>
+                    <button onclick="initDragGame()" class="px-4 py-2 bg-purple-500 hover:bg-purple-400 text-white font-black rounded-xl text-sm shadow transition">
+                        <i class="fa-solid fa-arrows-rotate mr-1"></i> Acak Ulang Game
+                    </button>
+                </div>
+
+                <p class="text-slate-800 font-bold text-sm bg-purple-50 p-4 rounded-2xl border border-purple-200">
+                    🎮 <strong>Cara Bermain:</strong> Tarik (*Drag*) kartu pernyataan berwarna di bawah ini, lalu lepaskan (*Drop*) ke dalam kotak target yang sesuai: **Kategori FIKSI** atau **Kategori NONFIKSI**.
+                </p>
+
+                <!-- Source Items Box -->
+                <div class="bg-slate-100 p-4 rounded-2xl border-2 border-dashed border-slate-400 min-h-[120px]">
+                    <h3 class="text-xs font-black text-slate-700 uppercase mb-3"><i class="fa-solid fa-hand"></i> Kartu Yang Harus Dikelompokkan:</h3>
+                    <div id="dragItemsContainer" class="flex flex-wrap gap-3 min-h-[60px]">
+                        <!-- Draggable items injected dynamically -->
+                    </div>
+                </div>
+
+                <!-- Drop Targets Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                    
+                    <!-- Fiksi Dropzone -->
+                    <div id="dropzoneFiksi" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'fiksi')" class="card-bright border-sky-400 p-5 rounded-2xl bg-sky-50/70 min-h-[250px] space-y-3 transition">
+                        <div class="flex items-center justify-between border-b-2 border-sky-200 pb-2">
+                            <h3 class="font-black text-sky-900 text-lg flex items-center gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles text-sky-600"></i> Kategori Cerita FIKSI
+                            </h3>
+                            <span id="countFiksi" class="bg-sky-600 text-white font-black text-xs px-2.5 py-1 rounded-full">0 Item</span>
+                        </div>
+                        <div id="itemsFiksi" class="space-y-2 min-h-[160px]">
+                            <!-- Items dropped here -->
+                        </div>
+                    </div>
+
+                    <!-- Nonfiksi Dropzone -->
+                    <div id="dropzoneNonfiksi" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'nonfiksi')" class="card-bright border-emerald-400 p-5 rounded-2xl bg-emerald-50/70 min-h-[250px] space-y-3 transition">
+                        <div class="flex items-center justify-between border-b-2 border-emerald-200 pb-2">
+                            <h3 class="font-black text-emerald-900 text-lg flex items-center gap-2">
+                                <i class="fa-solid fa-book-bookmark text-emerald-600"></i> Kategori Teks NONFIKSI
+                            </h3>
+                            <span id="countNonfiksi" class="bg-emerald-600 text-white font-black text-xs px-2.5 py-1 rounded-full">0 Item</span>
+                        </div>
+                        <div id="itemsNonfiksi" class="space-y-2 min-h-[160px]">
+                            <!-- Items dropped here -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="pt-4 flex justify-center">
+                    <button onclick="checkDragGame()" class="px-8 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-900 font-black rounded-2xl shadow-lg border-b-4 border-amber-600 text-lg transition flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check"></i> Periksa Jawaban Game
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 6: TENTANG PENGEMBANG -->
+        <section id="content-tentang" class="tab-content hidden space-y-6">
+            <div class="card-bright border-teal-500 rounded-3xl p-6 sm:p-8 bg-white">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                    
+                    <div class="flex flex-col items-center text-center space-y-4">
+                        <div class="relative">
+                            <div class="absolute -inset-2 bg-gradient-to-r from-amber-400 to-teal-400 rounded-full blur opacity-75"></div>
+                            <img id="devFotoGuru" src="https://drive.google.com/file/d/13qjBjmFXWEbFuHfXqDXPhWR8gDYCmSrE/view?usp=sharing" onerror="this.src='https://drive.google.com/file/d/13qjBjmFXWEbFuHfXqDXPhWR8gDYCmSrE/view?usp=sharing" alt="Foto Pengembang" class="relative rounded-full border-4 border-white shadow-2xl w-48 h-48 object-cover">
+                        </div>
+                        <div>
+                            <h3 id="namaGuruBio" class="text-2xl font-black text-slate-900">Adit Ardiansyah, S.Pd.</h3>
+                            <p class="text-teal-700 font-bold text-sm">Guru Bahasa Indonesia SMP</p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 space-y-4">
+                        <span class="inline-block bg-teal-600 text-white font-black text-xs px-3 py-1 rounded-full uppercase">Profil Pengembang Media</span>
+                        <h3 class="text-2xl font-black text-slate-900">Komitmen Media Pembelajaran Interaktif</h3>
+                        <p class="text-slate-800 font-bold leading-relaxed text-sm">
+                            Aplikasi media pembelajaran interaktif ini dirancang khusus untuk mempermudah siswa SMP Kelas VII dalam memahami materi Cerita Fiksi dan Nonfiksi. Dengan visualisasi berwarna, ramah anak, serta fitur kuis interaktif, diharapkan pembelajaran Bahasa Indonesia menjadi menyenangkan dan bermakna.
+                        </p>
+
+                        <!-- Input Customizer -->
+                        <div class="bg-teal-50 p-4 rounded-2xl border border-teal-200 space-y-3">
+                            <h4 class="font-black text-teal-900 text-sm"><i class="fa-solid fa-sliders"></i> Pengaturan Foto & Nama Guru</h4>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-xs font-bold text-slate-700 block mb-1">Nama Guru:</label>
+                                    <input type="text" id="inputNamaGuru" value="Adit Ardiansyah, S.Pd." class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-sm text-slate-900 focus:ring-2 focus:ring-teal-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-slate-700 block mb-1">URL Foto Guru (Opsional):</label>
+                                    <input type="text" id="inputFotoGuru" placeholder="saya.jpg.jpeg atau URL" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-sm text-slate-900 focus:ring-2 focus:ring-teal-500 outline-none">
+                                </div>
+                            </div>
+                            <button onclick="updateDevSettings()" class="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white font-extrabold text-xs rounded-xl shadow transition">
+                                Simpan Perubahan
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white border-t-4 border-amber-400 py-6 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="font-black text-amber-300 text-base">Media Pembelajaran Interaktif Bahasa Indonesia SMP Kelas VII</p>
+            <p class="text-slate-400 font-bold text-xs">© 2026 Karya Adit Ardiansyah, S.Pd. - Didesain khusus dengan Kontras Tinggi & Warna-warni Ceria.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentTab = 'home';
+        let speechSynth = window.speechSynthesis;
+
+        // 30 Question Bank
+        const quizData = [
+            { id: 1, q: "Cerita fiksi adalah karya sastra yang ditulis berdasarkan...", options: ["Imajinasi dan rekaan pengarang", "Fakta sejarah murni", "Hasil wawancara berita", "Hasil penelitian laboratorium"], ans: 0, cat: "Konsep Fiksi", exp: "Cerita fiksi bersumber dari imajinasi atau rekaan pengarang." },
+            { id: 2, q: "Teks nonfiksi dibuat berdasarkan...", options: ["Mimpi pengarang", "Fakta dan kenyataan", "Mitos masyarakat", "Dongeng nenek moyang"], ans: 1, cat: "Konsep Nonfiksi", exp: "Nonfiksi disusun berdasarkan kenyataan, fakta, dan data." },
+            { id: 3, q: "Berikut ini yang termasuk contoh karangan fiksi adalah...", options: ["Biografi Pahlawan", "Buku Pelajaran Matematika", "Novel Harry Potter", "Laporan Riset Sains"], ans: 2, cat: "Jenis Karya", exp: "Novel adalah bentuk karya fiksi rekaan imajinasi." },
+            { id: 4, q: "Buku yang berisi kisah perjalanan hidup seorang tokoh yang ditulis orang lain disebut...", options: ["Autobiografi", "Biografi", "Dongeng", "Fabel"], ans: 1, cat: "Jenis Karya", exp: "Biografi adalah rekam kisah hidup tokoh berdasarkan fakta nyata." },
+            { id: 5, q: "Cerita rekaan yang tokoh-tokohnya diperankan oleh hewan dan berprilaku seperti manusia disebut...", options: ["Mite", "Fabel", "Legenda", "Candi"], ans: 1, cat: "Jenis Karya", exp: "Fabel adalah cerita fiksi berkonsep kehidupan hewan." },
+            { id: 6, q: "Gaya bahasa yang digunakan dalam teks nonfiksi bersifat denotatif, artinya...", options: ["Makna kiasan", "Makna sebenarnya/lugas", "Makna ganda", "Makna tersembunyi"], ans: 1, cat: "Ciri Kebahasaan", exp: "Denotatif berarti kata mengandung makna polos sebenarnya." },
+            { id: 7, q: "Gaya bahasa konotatif umumnya ditemukan dalam karya...", options: ["Buku Pelajaran", "Artikel Ilmiah", "Cerita Fiksi", "Jurnal Penelitian"], ans: 2, cat: "Ciri Kebahasaan", exp: "Cerita fiksi banyak menggunakan bahasa konotatif/kiasan." },
+            { id: 8, q: "Gagasan atau ide utama yang menjadi dasar pembuatan seluruh cerita dinamakan...", options: ["Latar", "Tema", "Alur", "Amanat"], ans: 1, cat: "Unsur Intrinsik", exp: "Tema merupakan pondasi ide utama cerita." },
+            { id: 9, q: "Pesan moral positif yang ingin disampaikan pengarang kepada pembaca disebut...", options: ["Amanat", "Latar", "Sudut Pandang", "Konflik"], ans: 0, cat: "Unsur Intrinsik", exp: "Amanat berisi nasihat atau pesan moral pembina karakter." },
+            { id: 10, q: "Gambaran mengenai tempat, waktu, dan suasana terjadinya cerita disebut...", options: ["Alur", "Latar (Setting)", "Penokohan", "Tema"], ans: 1, cat: "Unsur Intrinsik", exp: "Latar mencakup waktu, tempat, dan suasana." },
+            { id: 11, q: "Rangkaian atau jalan peristiwa yang membentuk suatu cerita fiksi disebut...", options: ["Sudut Pandang", "Alur (Plot)", "Amanat", "Karakter"], ans: 1, cat: "Unsur Intrinsik", exp: "Alur mengabaikan susunan kronologis konflik peristiwa." },
+            { id: 12, q: "Tokoh utama dalam cerita fiksi yang memiliki watak baik dan terpuji biasanya dinamakan...", options: ["Antagonis", "Protagonis", "Tritagonis", "Figuran"], ans: 1, cat: "Penokohan", exp: "Protagonis adalah pemeran utama berwatak positif." },
+            { id: 13, q: "Tokoh penentang atau penjahat yang memicu timbulnya konflik dinamakan...", options: ["Protagonis", "Antagonis", "Tritagonis", "Figuran"], ans: 1, cat: "Penokohan", exp: "Antagonis berwatak penentang atau berlawanan." },
+            { id: 14, q: "Salah satu contoh buku nonfiksi yang berisi informasi referensi ilmu pengetahuan adalah...", options: ["Ensiklopedia", "Komik Humor", "Cerpen Misteri", "Dongeng Rakyat"], ans: 0, cat: "Jenis Karya", exp: "Ensiklopedia berisi kumpulan informasi faktual." },
+            { id: 15, q: "Unsur pembangun cerita yang berasal dari dalam karya fiksi itu sendiri disebut...", options: ["Unsur Ekstrinsik", "Unsur Intrinsik", "Unsur Kebahasaan", "Unsur Sosial"], ans: 1, cat: "Unsur Intrinsik", exp: "Unsur intrinsik membangun fisik dalam cerita." },
+            { id: 16, q: "Berikut yang BUKAN merupakan contoh karya fiksi adalah...", options: ["Cerpen", "Novel", "Biografi", "Fabel"], ans: 2, cat: "Jenis Karya", exp: "Biografi bersumber dari riwayat nyata (Nonfiksi)." },
+            { id: 17, q: "Dongeng tentang asal-usul suatu tempat dinamakan...", options: ["Mitos", "Legenda", "Fabel", "Sage"], ans: 1, cat: "Jenis Karya", exp: "Legenda berkaitan dengan asal-usul mula tempat." },
+            { id: 18, q: "Sudut pandang di mana penulis menjadi pelaku utama cerita menggunakan kata 'Aku' dinamakan...", options: ["Orang Pertama", "Orang Ketiga", "Orang Kedua", "Campuran"], ans: 0, cat: "Unsur Intrinsik", exp: "Penggunaan 'Aku/Saya' menandakan sudut pandang orang pertama." },
+            { id: 19, q: "Latar suasana pada kalimat: 'Petir menyambar-nyambar disertai gemuruh guruh yang menakutkan' adalah...", options: ["Gembira", "Mencekam / Menakutkan", "Tenang", "Sedih"], ans: 1, cat: "Unsur Intrinsik", exp: "Petir dan gemuruh menimbulkan suasana mencekam." },
+            { id: 20, q: "Manakah pernyataan yang BENAR mengenai teks nonfiksi?", options: ["Dibuat dari khayalan pengarang", "Bertujuan menghibur secara imajinatif", "Berdasarkan data fakta ilmiah", "Tidak perlu kebenaran data"], ans: 2, cat: "Konsep Nonfiksi", exp: "Nonfiksi harus selalu didasari data valid faktual." },
+            { id: 21, q: "Buku panduan pelajaran sekolah termasuk ke dalam jenis buku...", options: ["Fiksi", "Nonfiksi", "Dongeng", "Sastra Khayalan"], ans: 1, cat: "Jenis Karya", exp: "Buku pelajaran memuat materi pembelajaran nyata." },
+            { id: 22, q: "Alur cerita yang menceritakan peristiwa masa lalu kembali ke masa kini disebut alur...", options: ["Maju", "Mundur / Flashback", "Campuran", "Lurus"], ans: 1, cat: "Unsur Intrinsik", exp: "Alur mundur kembali mengulas peristiwa masa lalu." },
+            { id: 23, q: "Watak tokoh kancil dalam cerita rakyat 'Kancil dan Buaya' adalah...", options: ["Pemalas", "Cerdik banyak akal", "Pemberang", "Penyelam"], ans: 1, cat: "Penokohan", exp: "Kancil dikenal cerdik memanfaatkan akalnya." },
+            { id: 24, q: "Bahasa denotatif bersifat objektif, sedangkan bahasa konotatif bersifat...", options: ["Subjektif/Kiasan", "Pasti", "Ilmiah", "Faktual"], ans: 0, cat: "Ciri Kebahasaan", exp: "Konotatif memuat kiasan imajinatif." },
+            { id: 25, q: "Bagian struktur cerita tempat mulai munculnya masalah dinamakan...", options: ["Orientasi", "Komplikasi", "Resolusi", "Koda"], ans: 1, cat: "Unsur Intrinsik", exp: "Komplikasi adalah tahap timbulnya masalah/konflik." },
+            { id: 26, q: "Tahap penyelesaian masalah dalam cerita fiksi dinamakan...", options: ["Resolusi", "Komplikasi", "Orientasi", "Klimaks"], ans: 0, cat: "Unsur Intrinsik", exp: "Resolusi menghadirkan solusi konflik." },
+            { id: 27, q: "Buku catatan harian atau jurnal pribadi pengalaman seseorang termasuk teks...", options: ["Fiksi", "Nonfiksi", "Mitos", "Komik Fabel"], ans: 1, cat: "Jenis Karya", exp: "Catatan harian menceritakan kejadian nyata dialami." },
+            { id: 28, q: "Penyusun buku nonfiksi dituntut untuk menyajikan isi tulisan yang bersifat...", options: ["Faktual dan Otoritatif", "Fiktif semata", "Penuh keajaiban", "Tanpa data"], ans: 0, cat: "Konsep Nonfiksi", exp: "Nonfiksi mengutamakan ketepatan faktual." },
+            { id: 29, q: "Buku resep masakan termasuk ke dalam karya nonfiksi jenis...", options: ["Panduan Praktis", "Novel", "Cerpen", "Mitos"], ans: 0, cat: "Jenis Karya", exp: "Resep masakan memuat instruksi langkah faktual." },
+            { id: 30, q: "Media pembelajaran interaktif ini dikembangkan oleh guru Bahasa Indonesia bernama...", options: ["Adit Ardiansyah, S.Pd.", "Budi Santoso, M.Pd.", "Siti Rahma, S.Pd.", "Ahmad Fauzi, M.Hum."], ans: 0, cat: "Umum", exp: "Media ini karya Adit Ardiansyah, S.Pd." }
+        ];
+
+        let userAnswers = new Array(30).fill(null);
+        let currentQuizIndex = 0;
+        let quizTimerSeconds = 30 * 60;
+        let quizTimerInterval = null;
+
+        function changeTheme(time) {
+            const header = document.getElementById('headerContainer');
+            header.className = "text-white transition-all duration-500 shadow-lg border-b-8 border-amber-400 relative overflow-hidden bg-" + time;
+        }
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn bg-slate-200 text-slate-800 font-extrabold px-4 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 whitespace-nowrap border-b-4 border-slate-400";
+            });
+
+            const activeBtn = document.getElementById('tab-' + tabId);
+            if (activeBtn) {
+                activeBtn.className = "nav-btn bg-sky-500 text-white font-extrabold px-4 py-2.5 rounded-xl text-sm sm:text-base flex items-center gap-2 whitespace-nowrap shadow-md border-b-4 border-sky-700 active:translate-y-0.5";
+            }
+        }
+
+        function switchSubMateri(subId) {
+            document.querySelectorAll('.submateri-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('submateri-' + subId).classList.remove('hidden');
+
+            document.querySelectorAll('.submateri-btn').forEach(btn => {
+                btn.className = "submateri-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-200 text-slate-800 hover:bg-amber-100";
+            });
+
+            const activeSub = document.getElementById('btn-' + subId);
+            if (activeSub) {
+                activeSub.className = "submateri-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-amber-500 text-slate-900 shadow border-b-2 border-amber-700";
+            }
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                speechSynth.cancel(); // Stop active speech
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID';
+                utterance.rate = 0.95;
+                speechSynth.speak(utterance);
+            } else {
+                alert("Perangkat Anda tidak mendukung pemutar suara otomatis.");
+            }
+        }
+
+        function renderQuizGrid() {
+            const gridContainer = document.getElementById('quizGridNav');
+            gridContainer.innerHTML = '';
+
+            for (let i = 0; i < 30; i++) {
+                const btn = document.createElement('button');
+                btn.innerText = i + 1;
+                btn.onclick = () => jumpToQuestion(i);
+                
+                let btnClass = "w-full py-2 rounded-lg font-black text-xs transition border ";
+                if (i === currentQuizIndex) {
+                    btnClass += "bg-rose-600 text-white border-rose-800 ring-2 ring-rose-400";
+                } else if (userAnswers[i] !== null) {
+                    btnClass += "bg-emerald-500 text-white border-emerald-700";
+                } else {
+                    btnClass += "bg-white text-slate-800 border-slate-300 hover:bg-slate-200";
+                }
+                btn.className = btnClass;
+                gridContainer.appendChild(btn);
+            }
+        }
+
+        function renderCurrentQuestion() {
+            const item = quizData[currentQuizIndex];
+            document.getElementById('questionNumberBadge').innerText = `Soal ${currentQuizIndex + 1} dari 30`;
+            document.getElementById('questionCategoryBadge').innerText = item.cat;
+            document.getElementById('quizQuestionText').innerText = item.q;
+
+            const optionsBox = document.getElementById('quizOptionsContainer');
+            optionsBox.innerHTML = '';
+
+            item.options.forEach((opt, idx) => {
+                const isSelected = userAnswers[currentQuizIndex] === idx;
+                const optBtn = document.createElement('button');
+                optBtn.onclick = () => selectQuizAnswer(idx);
+                optBtn.className = `w-full text-left p-4 rounded-xl font-extrabold text-sm sm:text-base border-2 transition flex items-center justify-between ${
+                    isSelected 
+                    ? 'bg-rose-100 border-rose-500 text-rose-900 shadow-sm' 
+                    : 'bg-white border-slate-300 text-slate-800 hover:bg-rose-50 hover:border-rose-300'
+                }`;
+
+                optBtn.innerHTML = `
+                    <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
+                    ${isSelected ? '<i class="fa-solid fa-circle-check text-rose-600 text-lg"></i>' : '<i class="fa-regular fa-circle text-slate-400"></i>'}
+                `;
+                optionsBox.appendChild(optBtn);
+            });
+
+            document.getElementById('btnPrevQuiz').disabled = (currentQuizIndex === 0);
+            
+            // Progress Bar update
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            const progressPercent = (answeredCount / 30) * 100;
+            document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
+
+            renderQuizGrid();
+        }
+
+        function selectQuizAnswer(optionIdx) {
+            userAnswers[currentQuizIndex] = optionIdx;
+            renderCurrentQuestion();
+        }
+
+        function navigateQuiz(dir) {
+            currentQuizIndex += dir;
+            if (currentQuizIndex < 0) currentQuizIndex = 0;
+            if (currentQuizIndex >= 30) currentQuizIndex = 29;
+            renderCurrentQuestion();
+        }
+
+        function jumpToQuestion(index) {
+            currentQuizIndex = index;
+            renderCurrentQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(quizTimerInterval);
+            quizTimerInterval = setInterval(() => {
+                quizTimerSeconds--;
+                if (quizTimerSeconds <= 0) {
+                    clearInterval(quizTimerInterval);
+                    submitQuiz();
+                }
+                const mins = Math.floor(quizTimerSeconds / 60);
+                const secs = quizTimerSeconds % 60;
+                document.getElementById('quizTimer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function submitQuiz() {
+            clearInterval(quizTimerInterval);
+            let correct = 0;
+
+            quizData.forEach((q, idx) => {
+                if (userAnswers[idx] === q.ans) correct++;
+            });
+
+            const score = Math.round((correct / 30) * 100);
+            document.getElementById('finalScoreText').innerText = score;
+            document.getElementById('correctCountText').innerText = `${correct} / 30`;
+
+            let predicate = "Perlu Belajar";
+            let stars = "⭐";
+            if (score >= 90) { predicate = "Sangat Istimewa"; stars = "⭐⭐⭐⭐⭐"; }
+            else if (score >= 75) { predicate = "Baik Sekali"; stars = "⭐⭐⭐⭐"; }
+            else if (score >= 60) { predicate = "Cukup Baik"; stars = "⭐⭐⭐"; }
+            
+            document.getElementById('predicateText').innerText = predicate;
+            document.getElementById('starRating').innerText = stars;
+
+            // Generate Pembahasan
+            const pembahasanBox = document.getElementById('quizPembahasanBox');
+            pembahasanBox.innerHTML = '';
+            quizData.forEach((q, idx) => {
+                const userAnsIdx = userAnswers[idx];
+                const isCorrect = userAnsIdx === q.ans;
+                const div = document.createElement('div');
+                div.className = `p-3 rounded-xl border text-xs font-bold ${isCorrect ? 'bg-emerald-50 border-emerald-300 text-emerald-900' : 'bg-rose-50 border-rose-300 text-rose-900'}`;
+                div.innerHTML = `
+                    <p class="font-black">${idx + 1}. ${q.q}</p>
+                    <p>Jawaban Anda: ${userAnsIdx !== null ? String.fromCharCode(65 + userAnsIdx) + '. ' + q.options[userAnsIdx] : 'Belum Dijawab'} ${isCorrect ? '✅' : '❌'}</p>
+                    ${!isCorrect ? `<p class="text-emerald-700 font-extrabold">Jawaban Benar: ${String.fromCharCode(65 + q.ans)}. ${q.options[q.ans]}</p>` : ''}
+                    <p class="text-slate-600 text-[11px] mt-1">💡 ${q.exp}</p>
+                `;
+                pembahasanBox.appendChild(div);
+            });
+
+            document.getElementById('quizResultModal').classList.remove('hidden');
+        }
+
+        function closeQuizResult() {
+            document.getElementById('quizResultModal').classList.add('hidden');
+        }
+
+        function resetQuiz() {
+            userAnswers = new Array(30).fill(null);
+            currentQuizIndex = 0;
+            quizTimerSeconds = 30 * 60;
+            startTimer();
+            renderCurrentQuestion();
+        }
+
+        const gameItemsData = [
+            { id: 'g1', text: 'Novel Harry Potter', type: 'fiksi' },
+            { id: 'g2', text: 'Buku Pelajaran IPA', type: 'nonfiksi' },
+            { id: 'g3', text: 'Dongeng Sang Kancil', type: 'fiksi' },
+            { id: 'g4', text: 'Biografi Bung Karno', type: 'nonfiksi' },
+            { id: 'g5', text: 'Komik Cerita Mitos', type: 'fiksi' },
+            { id: 'g6', text: 'Ensiklopedia Luar Angkasa', type: 'nonfiksi' },
+            { id: 'g7', text: 'Cerpen Anak Sekolah', type: 'fiksi' },
+            { id: 'g8', text: 'Laporan Artikel Ilmiah', type: 'nonfiksi' },
+            { id: 'g9', text: 'Fabel Kelinci dan Kura-kura', type: 'fiksi' },
+            { id: 'g10', text: 'Jurnal Hasil Penelitian', type: 'nonfiksi' }
+        ];
+
+        let gameState = {};
+
+        function initDragGame() {
+            gameState = {
+                source: [...gameItemsData].sort(() => Math.random() - 0.5),
+                fiksi: [],
+                nonfiksi: []
+            };
+            renderDragGame();
+        }
+
+        function renderDragGame() {
+            const srcContainer = document.getElementById('dragItemsContainer');
+            const fiksiBox = document.getElementById('itemsFiksi');
+            const nonfiksiBox = document.getElementById('itemsNonfiksi');
+
+            srcContainer.innerHTML = '';
+            fiksiBox.innerHTML = '';
+            nonfiksiBox.innerHTML = '';
+
+            gameState.source.forEach(item => {
+                srcContainer.appendChild(createDragCard(item));
+            });
+
+            gameState.fiksi.forEach(item => {
+                fiksiBox.appendChild(createDragCard(item));
+            });
+
+            gameState.nonfiksi.forEach(item => {
+                nonfiksiBox.appendChild(createDragCard(item));
+            });
+
+            document.getElementById('countFiksi').innerText = `${gameState.fiksi.length} Item`;
+            document.getElementById('countNonfiksi').innerText = `${gameState.nonfiksi.length} Item`;
+        }
+
+        function createDragCard(item) {
+            const card = document.createElement('div');
+            card.id = item.id;
+            card.draggable = true;
+            card.ondragstart = (e) => e.dataTransfer.setData('text/plain', item.id);
+            card.className = "drag-item bg-amber-300 text-slate-900 font-extrabold px-3.5 py-2 rounded-xl text-xs sm:text-sm border-b-4 border-amber-600 shadow inline-block m-1";
+            card.innerHTML = `<i class="fa-solid fa-grip-vertical mr-1 opacity-70"></i> ${item.text}`;
+            return card;
+        }
+
+        function allowDrop(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e, targetZone) {
+            e.preventDefault();
+            const itemId = e.dataTransfer.getData('text/plain');
+            const itemObj = gameItemsData.find(x => x.id === itemId);
+
+            if (!itemObj) return;
+
+            // Remove from current arrays
+            gameState.source = gameState.source.filter(x => x.id !== itemId);
+            gameState.fiksi = gameState.fiksi.filter(x => x.id !== itemId);
+            gameState.nonfiksi = gameState.nonfiksi.filter(x => x.id !== itemId);
+
+            // Add to target array
+            gameState[targetZone].push(itemObj);
+            renderDragGame();
+        }
+
+        function checkDragGame() {
+            let correct = 0;
+            gameState.fiksi.forEach(item => {
+                if (item.type === 'fiksi') correct++;
+            });
+            gameState.nonfiksi.forEach(item => {
+                if (item.type === 'nonfiksi') correct++;
+            });
+
+            const totalPlaced = gameState.fiksi.length + gameState.nonfiksi.length;
+            if (totalPlaced < 10) {
+                alert(`Harap kelompokkan semua 10 kartu terlebih dahulu! Baru ${totalPlaced} kartu yang dikelompokkan.`);
+                return;
+            }
+
+            if (correct === 10) {
+                alert("🎉 LUAR BIASA SELESAI PERFECT! Semua 10 kelompok kartu dikelompokkan dengan SANGAT TEPAT!");
+            } else {
+                alert(`Jawaban Anda: ${correct} Benar dari 10 Kartu. Silakan periksa kembali kartu yang kurang tepat!`);
+            }
+        }
+
+        function updateDevSettings() {
+            const nama = document.getElementById('inputNamaGuru').value;
+            const foto = document.getElementById('inputFotoGuru').value;
+
+            if (nama) {
+                document.getElementById('namaGuruDisplay').innerText = nama;
+                document.getElementById('namaGuruBio').innerText = nama;
+            }
+
+            if (foto) {
+                document.getElementById('homeFotoGuru').src = foto;
+                document.getElementById('devFotoGuru').src = foto;
+            }
+
+            alert("Pengaturan profil berhasil diperbarui!");
+        }
+
+        window.onload = function() {
+            startTimer();
+            renderCurrentQuestion();
+            initDragGame();
+        };
+    </script>
+</body>
+</html>
